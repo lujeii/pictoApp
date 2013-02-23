@@ -11,7 +11,7 @@ class PictoApp < FXMainWindow
   # Constructor
   def initialize( app )
     super( app, "My Picto App", :width => 600, :height => 400 )
-    pic = Picture.new( File.dirname(__FILE__) + "/images/test.jpg" )
+    pic = Picture.new( File.dirname(__FILE__) + "/images/test.png" )
     picto_view = PictoView.new( self, pic )
   end
 
