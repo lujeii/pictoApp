@@ -2,20 +2,23 @@ require 'fox16'
 
 include Fox
 
+require_relative "./models/picture"
+require_relative "./pictoView"
+
 # Main app Class.
 class PictoApp < FXMainWindow
 
   # Constructor
   def initialize( app )
     super( app, "My Picto App", :width => 600, :height => 400 )
-    photo = Photo.new( "test.jpg" )
-    picto_view = PictoView.new( self, photo )
+    pic = Picture.new( File.dirname(__FILE__) + "/images/test.jpg" )
+    picto_view = PictoView.new( self, pic )
   end
 
   # Create main app window.
   def create
     super
-    show PLACEMENT_SCREEN
+    show( PLACEMENT_SCREEN )
   end
 
 end
