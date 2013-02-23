@@ -2,21 +2,25 @@ require 'fox16'
 
 include Fox
 
-# Create the main app window...
+# Main app Class.
 class PictoApp < FXMainWindow
 
+  # Constructor
   def initialize( app )
-    super app, "My Picto App", :width => 600, :height => 400
+    super( app, "My Picto App", :width => 600, :height => 400 )
+    photo = Photo.new( "test.jpg" )
+    picto_view = PictoView.new( self, photo )
   end
-    
+
+  # Create main app window.
   def create
     super
     show PLACEMENT_SCREEN
   end
-  
+
 end
 
-# run the scripts :
+# run the app:
 if __FILE__ == $0
   FXApp.new do |app|
     PictoApp.new app
