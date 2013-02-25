@@ -3,16 +3,24 @@ require 'fox16'
 include Fox
 
 require_relative "./models/picture"
-require_relative "./pictoView"
+require_relative "./models/gallery"
+require_relative "./views/galleryView"
 
 # Main app Class.
 class PictoApp < FXMainWindow
 
   # Constructor
   def initialize( app )
+
     super( app, "My Picto App", :width => 600, :height => 400 )
+    @gallery = Gallery.new( 'My Pics Test' )
+
     pic = Picture.new( File.dirname(__FILE__) + "/images/test.png" )
-    picto_view = PictoView.new( self, pic )
+    @gallery.add_picture( pic )
+    @gallery.add_picture( pic )
+
+    gallery_view = GalleryView.new( self, @gallery )
+    
   end
 
   # Create main app window.

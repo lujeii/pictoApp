@@ -17,7 +17,7 @@ class Gallery
 
   # display/render each picture
   def each_picture
-    @photo.each {|pic| yield pic }
+    @pictures.each {|pic| yield pic }
   end
 
 end
