@@ -15,16 +15,15 @@ class PictoApp < FXMainWindow
   def initialize( app )
 
     super( app, "My Picto App", :width => 600, :height => 400 )
-
     set_menu_bar
 
     @gallery = Gallery.new( 'My Pics Test' )
     @gallery_list = GalleryList.new
     @gallery_list.add( @gallery )
-    
-    @gallery_list_view = GalleryListView.new( self, LAYOUT_FILL|LAYOUT_SIDE_LEFT, @gallery_list)
 
-    @gallery_view = GalleryView.new( self, @gallery )
+    splitter = FXSplitter.new( self, :opts => SPLITTER_HORIZONTAL|LAYOUT_FILL )
+    @gallery_list_view = GalleryListView.new( splitter, LAYOUT_FILL, @gallery_list)
+    @gallery_view = GalleryView.new( splitter, @gallery )
 
   end
 
