@@ -22,8 +22,10 @@ class PictoApp < FXMainWindow
     @gallery_list.add( @gallery )
 
     splitter = FXSplitter.new( self, :opts => SPLITTER_HORIZONTAL|LAYOUT_FILL )
+    @switcher = FXSwitcher.new( splitter, :opts => LAYOUT_FILL )
+
     @gallery_list_view = GalleryListView.new( splitter, LAYOUT_FILL, @gallery_list)
-    @gallery_view = GalleryView.new( splitter, @gallery )
+    @gallery_view = GalleryView.new( @switcher, @gallery )
 
   end
 
@@ -63,8 +65,16 @@ class PictoApp < FXMainWindow
       @gallery.add_picture( pic )
       @gallery_view.add_pic( pic )
     end
-    @gallery_view.create
+    current_gallery_view.create
     
+  end
+
+  def current_gallery_view
+    @switcher.childAtIndex( @switcher.current )
+  end
+
+  def current_gallery
+    current_gallery_view.gallery
   end
 
 end
