@@ -4,7 +4,9 @@ include Fox
 
 require_relative "./models/picture"
 require_relative "./models/gallery"
+require_relative "./models/galleryList"
 require_relative "./views/galleryView"
+require_relative "./views/galleryListView"
 
 # Main app Class.
 class PictoApp < FXMainWindow
@@ -17,10 +19,10 @@ class PictoApp < FXMainWindow
     set_menu_bar
 
     @gallery = Gallery.new( 'My Pics Test' )
-
-    #pic = Picture.new( File.dirname(__FILE__) + "/images/test.png" )
-    #@gallery.add_picture( pic )
-    #@gallery.add_picture( pic )
+    @gallery_list = GalleryList.new
+    @gallery_list.add( @gallery )
+    
+    @gallery_list_view = GalleryListView.new( self, LAYOUT_FILL|LAYOUT_SIDE_LEFT, @gallery_list)
 
     @gallery_view = GalleryView.new( self, @gallery )
 
