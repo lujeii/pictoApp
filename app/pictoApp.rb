@@ -23,6 +23,9 @@ class PictoApp < FXMainWindow
 
     splitter = FXSplitter.new( self, :opts => SPLITTER_HORIZONTAL|LAYOUT_FILL )
     @switcher = FXSwitcher.new( splitter, :opts => LAYOUT_FILL )
+    @switcher.connect( SEL_UPDATE ) do
+      @switcher.current = @gallery_list_view.currentItem
+    end
 
     @gallery_list_view = GalleryListView.new( splitter, LAYOUT_FILL, @gallery_list)
     @gallery_view = GalleryView.new( @switcher, @gallery )
@@ -48,6 +51,18 @@ class PictoApp < FXMainWindow
       dialog.selectMode = SELECTFILE_MULTIPLE
       dialog.patternList =["PNG Images (*.png)"]
       import_pics( dialog.filenames ) if dialog.execute != 0
+    end
+
+    # new gallery cmd
+    new_gallery_cmd = FXMenuCommand.new( file_menu, "New Gallery..." )
+    new_gallery_cmd.connect( SEL_COMMAND ) do 
+      gallery_title = FXInputDialog.getString('My Gallery', self, "New Gallery", "Name: ")
+      if gallery_title
+        gallery = Gallery.new( gallery_title )
+        @gallery_list.add( gallery )
+        @gallery_list_view.add( gallery )
+        GalleryView.new( @switcher, gallery ) 
+      end
     end
 
     # exit cmd
