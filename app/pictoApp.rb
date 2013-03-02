@@ -17,18 +17,23 @@ class PictoApp < FXMainWindow
     super( app, "My Picto App", :width => 600, :height => 400 )
     set_menu_bar
 
-    @gallery = Gallery.new( 'My Pics Test' )
-    @gallery_list = GalleryList.new
-    @gallery_list.add( @gallery )
+    begin
+      @gallery_list = YAML.load_file( "../galleries/pictoapp.yml" )
+    rescue
+      @gallery_list = GalleryList.new
+      @gallery_list.add( Gallery.new( "My Test" ) )
+    end 
 
     splitter = FXSplitter.new( self, :opts => SPLITTER_HORIZONTAL|LAYOUT_FILL )
+
     @switcher = FXSwitcher.new( splitter, :opts => LAYOUT_FILL )
     @switcher.connect( SEL_UPDATE ) do
       @switcher.current = @gallery_list_view.currentItem
     end
 
-    @gallery_list_view = GalleryListView.new( splitter, LAYOUT_FILL, @gallery_list)
-    @gallery_view = GalleryView.new( @switcher, @gallery )
+    @gallery_list_view = GalleryListView.new( splitter, LAYOUT_FILL )
+    @gallery_list_view.switcher = @switcher
+    @gallery_list_view.list = @gallery_list
 
   end
 
@@ -68,6 +73,7 @@ class PictoApp < FXMainWindow
     # exit cmd
     exit_cmd = FXMenuCommand.new( file_menu, "Exit" )
     exit_cmd.connect( SEL_COMMAND ) do
+      store_album_list
       exit
     end
 
@@ -90,6 +96,12 @@ class PictoApp < FXMainWindow
 
   def current_gallery
     current_gallery_view.gallery
+  end
+
+  def store_gallery_list
+    File.open( "../galleries/pictoapp.yml", "w" ) do |io|
+      io.write( YAML.dump( @gallery_list ) )
+    end
   end
 
 end
