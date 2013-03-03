@@ -26,12 +26,13 @@ class PictoApp < FXMainWindow
 
     splitter = FXSplitter.new( self, :opts => SPLITTER_HORIZONTAL|LAYOUT_FILL )
 
+    @gallery_list_view = GalleryListView.new( splitter, LAYOUT_FILL )     # /!\
+
     @switcher = FXSwitcher.new( splitter, :opts => LAYOUT_FILL )
     @switcher.connect( SEL_UPDATE ) do
       @switcher.current = @gallery_list_view.currentItem
     end
 
-    @gallery_list_view = GalleryListView.new( splitter, LAYOUT_FILL )
     @gallery_list_view.switcher = @switcher
     @gallery_list_view.list = @gallery_list
 
