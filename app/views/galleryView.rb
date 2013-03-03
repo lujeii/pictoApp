@@ -1,4 +1,4 @@
-require_relative 'pictoView'
+require_relative "./pictoView"
 
 class GalleryView < FXScrollWindow
 

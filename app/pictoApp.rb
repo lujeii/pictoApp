@@ -1,12 +1,17 @@
 require 'fox16'
+require 'yaml'
 
 include Fox
 
-require_relative "./models/picture"
 require_relative "./models/gallery"
 require_relative "./models/galleryList"
-require_relative "./views/galleryView"
 require_relative "./views/galleryListView"
+require_relative "./views/galleryView"
+
+require_relative "./models/picture"
+require_relative "./views/pictoView"
+
+require_relative "./debug"
 
 # Main app Class.
 class PictoApp < FXMainWindow
@@ -14,11 +19,13 @@ class PictoApp < FXMainWindow
   # Constructor
   def initialize( app )
 
+    Debug.new( " init ")
+
     super( app, "My Picto App", :width => 600, :height => 400 )
     set_menu_bar
 
     begin
-      @gallery_list = YAML.load_file( "../galleries/pictoapp.yml" )
+      @gallery_list = YAML.load_file( "#{File.dirname(__FILE__)}/galleries/pictoapp.yml" )
     rescue
       @gallery_list = GalleryList.new
       @gallery_list.add( Gallery.new( "My Test" ) )
@@ -80,14 +87,12 @@ class PictoApp < FXMainWindow
   end
 
   def import_pics( filenames )
-
     filenames.each do |filename|
       pic = Picture.new( filename )
-      @gallery.add_picture( pic )
-      @gallery_view.add_pic( pic )
+      current_gallery.add_picture( pic )
+      current_gallery_view.add_pic( pic )
     end
     current_gallery_view.create
-    
   end
 
   def current_gallery_view
