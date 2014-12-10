@@ -1,4 +1,4 @@
-require_relative 'pictoView'
+require_relative 'picto_view'
 
 class GalleryView < FXScrollWindow
 
@@ -10,7 +10,7 @@ class GalleryView < FXScrollWindow
     super( p, :opts => LAYOUT_FILL )
     @gallery = gallery
     FXMatrix.new( self, :opts => LAYOUT_FILL|MATRIX_BY_COLUMNS )
-    @gallery.each_picture {|pic| add_pic(pic) }
+    @gallery.each_picture {|picture| add_pic(picture) }
   end
   
   # layout

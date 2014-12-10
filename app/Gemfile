@@ -1,4 +1,5 @@
 source 'https://rubygems.org'
 
 # require: sudo apt-get install libfox-1.6-dev
-gem 'fxruby'
+gem 'fxruby', '~> 1.6.28'
+gem 'rake'

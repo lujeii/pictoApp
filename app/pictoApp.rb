@@ -1,24 +1,28 @@
 require 'fox16'
+require 'yaml'
 
 include Fox
 
-require_relative "./models/picture"
-require_relative "./models/gallery"
-require_relative "./models/galleryList"
-require_relative "./views/galleryView"
-require_relative "./views/galleryListView"
+require_relative "models/picture"
+require_relative "models/gallery"
+require_relative "models/gallery_list"
+require_relative "views/gallery_view"
+require_relative "views/gallery_list_view"
 
 # Main app Class.
 class PictoApp < FXMainWindow
 
+  
   # Constructor
   def initialize( app )
+    
+    @base_path = File.dirname(__FILE__)
 
-    super( app, "My Picto App", :width => 600, :height => 400 )
+    super( app, "My Picto App", :width => 800, :height => 600 )
     set_menu_bar
 
     begin
-      @gallery_list = YAML.load_file( "../galleries/pictoapp.yml" )
+      @gallery_list = YAML.load_file( "#{ @base_path }/../galleries/pictoapp.yml" )
     rescue
       @gallery_list = GalleryList.new
       @gallery_list.add( Gallery.new( "My Test" ) )
@@ -35,7 +39,7 @@ class PictoApp < FXMainWindow
 
     @gallery_list_view.switcher = @switcher
     @gallery_list_view.list = @gallery_list
-
+    
   end
 
   # Create main app window.
@@ -54,8 +58,8 @@ class PictoApp < FXMainWindow
     import_cmd = FXMenuCommand.new( file_menu, "Import..." )
     import_cmd.connect( SEL_COMMAND ) do
       dialog = FXFileDialog.new( self, "Import Photos" )
-      dialog.selectMode = SELECTFILE_MULTIPLE
-      dialog.patternList =["PNG Images (*.png)"]
+      dialog.selectMode  = SELECTFILE_MULTIPLE
+      dialog.patternList = ["PNG Images (*.png)"]
       import_pics( dialog.filenames ) if dialog.execute != 0
     end
 
@@ -67,14 +71,13 @@ class PictoApp < FXMainWindow
         gallery = Gallery.new( gallery_title )
         @gallery_list.add( gallery )
         @gallery_list_view.add( gallery )
-        GalleryView.new( @switcher, gallery ) 
       end
     end
 
     # exit cmd
     exit_cmd = FXMenuCommand.new( file_menu, "Exit" )
     exit_cmd.connect( SEL_COMMAND ) do
-      store_album_list
+      store_gallery_list
       exit
     end
 
@@ -84,9 +87,10 @@ class PictoApp < FXMainWindow
 
     filenames.each do |filename|
       pic = Picture.new( filename )
-      @gallery.add_picture( pic )
-      @gallery_view.add_pic( pic )
+      current_gallery.add_picture( pic )
+      current_gallery_view.add_pic( pic )
     end
+
     current_gallery_view.create
     
   end
@@ -100,7 +104,7 @@ class PictoApp < FXMainWindow
   end
 
   def store_gallery_list
-    File.open( "../galleries/pictoapp.yml", "w" ) do |io|
+    File.open( "#{ @base_path }/../galleries/pictoapp.yml", "w" ) do |io|
       io.write( YAML.dump( @gallery_list ) )
     end
   end

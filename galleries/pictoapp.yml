@@ -1,0 +1,7 @@
+--- !ruby/object:GalleryList
+galleries:
+- !ruby/object:Gallery
+  title: My Test
+  pictures:
+  - !ruby/object:Picture
+    path: "/home/fabien/Projects/pictoApp/app/images/test.png"
