@@ -25,7 +25,7 @@ class PictoApp < FXMainWindow
       @gallery_list = YAML.load_file( "#{ @base_path }/../galleries/pictoapp.yml" )
     rescue
       @gallery_list = GalleryList.new
-      @gallery_list.add( Gallery.new( "My Test" ) )
+      @gallery_list.add_gallery( Gallery.new( "My Test" ) )
     end 
 
     splitter = FXSplitter.new( self, :opts => SPLITTER_HORIZONTAL|LAYOUT_FILL )
@@ -38,7 +38,7 @@ class PictoApp < FXMainWindow
     end
 
     @gallery_list_view.switcher = @switcher
-    @gallery_list_view.list = @gallery_list
+    @gallery_list_view.gallery_list = @gallery_list
     
   end
 
@@ -69,8 +69,8 @@ class PictoApp < FXMainWindow
       gallery_title = FXInputDialog.getString('My Gallery', self, "New Gallery", "Name: ")
       if gallery_title
         gallery = Gallery.new( gallery_title )
-        @gallery_list.add( gallery )
-        @gallery_list_view.add( gallery )
+        @gallery_list.add_gallery( gallery )
+        @gallery_list_view.add_gallery( gallery )
       end
     end
 

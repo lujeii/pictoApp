@@ -5,3 +5,6 @@ galleries:
   pictures:
   - !ruby/object:Picture
     path: "/home/fabien/Projects/pictoApp/app/images/test.png"
+- !ruby/object:Gallery
+  title: My Gallery
+  pictures: []

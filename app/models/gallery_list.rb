@@ -7,12 +7,12 @@ class GalleryList
   end
 
   # add a gallery to list
-  def add( gallery )
+  def add_gallery( gallery )
     @galleries << gallery
   end
 
   # remove a gallery to list
-  def remove( gallery )
+  def remove_gallery( gallery )
     @galleries.delete( gallery )
   end
 

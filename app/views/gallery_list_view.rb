@@ -6,14 +6,14 @@ class GalleryListView < FXList
     super( p, :opts => opts )
   end
 
-  def add( gallery )
+  def add_gallery( gallery )
     appendItem( gallery.title )
     GalleryView.new( @switcher, gallery )
   end
 
-  def list=( galleries )
+  def gallery_list=( galleries )
     @gallery_list = galleries
-    @gallery_list.each_gallery {|gallery| add( gallery ) }
+    @gallery_list.each_gallery {|gallery| add_gallery( gallery ) }
   end
 
   def switcher=( sw )
