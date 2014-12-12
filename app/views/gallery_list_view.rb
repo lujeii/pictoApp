@@ -2,8 +2,9 @@ class GalleryListView < FXList
 
   attr_reader :gallery_list
 
-  def initialize( p, opts)
-    super( p, :opts => opts )
+  def initialize( p, opts, width=nil)
+    width = width || 100
+    super( p, :opts => opts, :width => width )
   end
 
   def add_gallery( gallery )
